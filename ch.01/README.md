@@ -221,3 +221,57 @@
       - 이더넷, 랜카드, Mac 통신, 에러검출/재전송
     - Physical
       - 네트워크 하드웨어 전송 기술
+
+## TCP/IP 모델 비교와 캡슐화
+
+---
+
+- TCP/IP 란 ?
+
+  - 정의
+    - 네트워크 프로토콜의 모음으로 패킷 통신 방식의 IP와 전송 조절 프로토콜인 TCP로 이루어져 있다
+  - 역사
+    - 1960년대 말 방위고등연구계획국(DARPA)이 연구
+    - 1990년대 네트워크 표준이 ISO 모델과 TCP/IP 모델로 좁혀짐
+    - 1990년대 말 TCP/IP 모델이 자주 쓰이면서 가장 일반적인 모델이 됨
+
+- TCP/IP 모델
+
+  - Network Interface(Layer 1) ~ Application(Layer 4)
+  - Application
+    - 응용 프로그램간 표준화 된 데이터 교환
+  - Transport
+    - TCP/UDP
+  - Network(Internet)
+    - 패킬을 처리하고 다른 네트워크로 연결
+  - Network Interface
+    - 물리계층으로 네트워크 노드들을 상호 연결
+
+- TCP/IP 와 OSI 7 Layer 비교
+
+  - 도식화 비교
+
+- 캡슐화
+
+  - 인캡슐레이션
+    - 사용자가 다른 사용자에게 어떤 Data를 보낼 때 이루어지는 과정
+    - Application , Presentation 단계에서 Host Data
+    - Session 단계에서는 위의 Host Data를 컴퓨터가 이해할 수 있는 정형화 된 Data로 변환
+    - Transport 단계에서는 단위가 Segment
+      - 보내는 Data가 어떤 Port를 사용하는지 등을 TCP Header에 담아서 Session 단계에서 받은 Data 앞에 붙임
+    - Network 단계에서는 단위가 Packet
+      - 보내는 Data가 어떤 IP로 보내는지 등을 IP Header에 담아서 Transport 단계에서 받은 Segment 앞에 붙임
+    - Data Link 단계에서는 단위가 Frame
+      - 보내는 Data의 목표 MAC, LLC Header를 Network 단계에서 받은 Packet 앞에 붙임
+      - 오류 검출
+    - Physical 단계에서는 단위가 bit
+      - Data Link 단계에서 받은 Frame을 전기신호로 변환
+  - 디캡슐레이션
+    - Data를 받는 입장에서는 인캡슐레이션의 반대 과정으로, Physical Layer가 전기 신호 bit를 받아서 Header를 detach하며 진행
+
+- Wrap up
+
+  - TCP/IP 모델은 패킷 통신 방식의 IP와 전송 조절 프로토콜인 TCP로 이루어져 있다
+  - 1960년대 말 개발되어 1990년대 말 네트워크 통신의 일반적인 모델이 됨
+  - TCP/IP와 OSI 7 Layer 비교
+  - 네트워크는 캡슐화를 통해서 통신한다
