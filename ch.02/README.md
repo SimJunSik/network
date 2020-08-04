@@ -115,7 +115,7 @@
     - TP(Twisted Pair)
       - 총 8가닥의 선으로 구성되며 두개의 선을 서로 꼬아놓는다
       - 선을 꼬은 이유는 자기장 간섭을 최소화 하여 성능(속도와 거리)을 향상
-      - UTP(Unshield Twisted Pair)
+      - UTP(Unshielded Twisted Pair)
         - 실효성 때문에 STP 보다 더 많이 쓰임
       - STP(Shielded Twisted Pair)
     - 동축(Coaxial)
@@ -159,3 +159,78 @@
   - 주로 사용되는 케이블의 종류는 Coxial, Fiber
   - 데이터 단위는 bit & Byte가 있으며 Kilo, Mega, Giga, Tera로 표현
   - 장비의 Capacity는 Bandwidth, Throughput, Backplace 로 설명
+
+## UTP 케이블과 Wi-Fi
+
+---
+
+- UTP 케이블이란 ?
+
+  - 정의
+    - Unshielded Twisted Pair, 주로 근거리 통신망(LAN)에서 사용되는 케이블
+    - 이더넷 망 구성시 가장 많이 보게되는 케이블
+    - 알렉산더 그레이엄 벨이 AT&T에서 발명
+
+- 코드 배열
+
+  - 8P8C
+    - 8개의 선 배열에 따라 다이렉트 또는 크로스 케이블로 구성한다
+    - RJ-45 커넥터 사용
+    - ex> TIA-568A, TIA-568B
+    - Direct Cable(568B-568B): PC to Hub -> DTE to DCE
+    - Cross Cable(568A-568B): PC to PC, Hub to Hub -> DTE to DTE, DCE to DCE
+    - DTE: Data Terminal Equipment
+    - DCE: Data Communication Equipment
+  - Standard
+    - ISO / IEC 11801
+    - Copper & Fiber 케이블 등을 정의
+    - TIA-568(Telecommunications Industry Association)
+      - 통신 제품 및 서비스를 위한 상업용 케이블 스펙을 정의
+    - EIA-568(Electronic Industries Alliance)
+      - 최초 통신 시스템 케이블링의 표준을 정의했고 이후 TIA로 이관
+  - Auto MDI-X(Automatic Medium Dependent Interface Crossover)
+    - 어떤 노드의 연결인지에 따라서 다이렉트와 크로스 케이블을 선택 -> 불편
+    - 케이블 타입에 관계없이 노드 상호간 자동으로 통신이 가능하게 하는 기술
+    - MDI 포트 -> DTE & MDIX 포트 -> DCE, 송신과 수신의 관계
+
+- UTP 카테고리
+
+  - 정의
+
+    - UTP 케이블의 전송 가능한 대여폭을 기준으로 분류
+
+    | 이름   | 최대 가능 속도 | 최대 케이블 길이 | 설명                       |
+    | ------ | -------------- | ---------------- | -------------------------- |
+    | Cat 3  | 10 Mbps        | 100m             | 주로 전화선                |
+    | Cat 4  | 16 Mbps        | 100m             | 거의 안쓰임                |
+    | Cat 5  | 100 Mbps       | 100m             | 주로 100M LAN 환경         |
+    | Cat 5e | 1 Gbps         | 100m             | 최근 100M - 1G LAN 환경    |
+    | Cat 6  | 10 Gbps        | 100m             | 10G 통신시 55m 까지만 가능 |
+
+- Wi-Fi란 ?
+
+  - 정의
+    - 비영리 기구인 Wi-Fi Aliance의 상표로 전자기기들이 무선랜에 연결할 수 있게 하는 기술
+    - 1999년 몇몇 회사들이 브랜드에 상관 없이 무선 네트워킹 기술의 발전을 위해 협회 결성
+    - 2000년 Wi-Fi 용어 채택
+    - 수십개 나라에서 수백개 회사가 참여
+    - 802.11n Wi-Fi 4, 802.11ac Wi-Fi, 802.11ax Wi-Fi 6로 불림
+
+- 무선랜 구성
+
+  - 인터넷 - ISP - 라우터 - WIPS - AP - 컴퓨터(무선랜카드)
+  - WIPS(Wireless IPS)
+  - AP(Access Point)
+  - WIPS - AP - 컴퓨터 를 한쌍으로 보면 됨
+  - 고려사항
+    - AP의 반경과 동시접속 단말기의 개수
+    - 802.11 무선랜 규격 확인
+
+- Wrap up
+
+  - UTP(Unshielded Twisted Pair, 주로 근거리 통신망(LAN)에서 사용되는 케이블)
+  - RJ-45 커넥터를 사용하며 TIA-568A & TIA-568B 배열을 통해서 다이렉트 & 크로스 케이블로 구분
+  - Auto MDI-X는 케이블 타입에 관계없이 자동으로 통신이 가능한 기술
+  - UTP는 회선 속도 및 쓰이는 용도에 따라서 분류
+  - Wi-Fi는 비영리 기구인 Wi-Fi Aliance의 상표로 전자기기들이 무선랜에 연결할 수 있게 하는 기술
+  - 무선랜 구성시 WIPS(보안), AP(무선 Hub)가 필요, AP반경과 동시접속 단말의 수를 고려해야 함
