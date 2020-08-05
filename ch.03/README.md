@@ -111,3 +111,116 @@
   Preamble | Dest Addr | Source Addr | Type   | Data | FCS
   8 byte   | 6 byte    | 6 byte      | 2 byte |      | 4 byte
   ```
+
+## 스위치와 ARP
+
+---
+
+- L2 스위치
+
+  - 정의
+
+    - 2계층의 대표적인 장비로, MAC주소 기반 통신
+    - 허브의 단점을 보완
+      - Half duplex -> Full duplex
+        ex> 일방 통신만 가능한 무전기 -> 쌍방 통신이 가능한 전화기
+      - 1 Collision Domain -> 포트별 Collision Domain
+    - 라우팅 기능이 있는 스위치를 L3 스위치라고도 부른다
+
+  - 동작 방식
+
+    - 목적지 주소를 MAC 주소 테이블에서 확인하여 연결된 포트로 프레임 전달
+
+    1. Learning
+       - 출발지 주소가 MAC 주소 테이블에 없으면 해당 주소를 저장
+    2. Flooding -> Broadcasting
+       - 목적지 주소가 MAC 주소 테이블에 없으면 전체 포트로 전달
+    3. Forwarding
+       - 목적지 주소가 MAC 주소 테이블에 있으면 해당 포트로 전달
+    4. Filtering - Collision Domain
+       - 출발지와 목적지가 같은 네트워크 영역이면 다른 네트워크로 전달하지 않음
+    5. Aging
+       - MAC 주소 테이블의 각 주소는 일정 시간 이후에 삭제
+
+  - Learning
+
+    - 4개의 PC는 스위치에 각 포트에 연결되고 프레임이 스위치에 전달
+    - 스위치는 해당 포트로 유입된 프레임을 보고 MAC 주소를 테이블에 저장
+
+  - Flooding
+
+    - PC1은 목적지 aa:bb:cc:dd:ee:05 주소로 프레임 전달
+    - 스위치는 해당 주소가 MAC Table에 없어서 전체 포트로 전달
+
+  - Forwarding
+
+    - PC1은 목적지 aa:bb:cc:dd:ee:05 주소로 프레임 전달
+    - 스위치는 해당 주소가 MAC Table에 존재하므로 해당 프레임을 PC5로 전달
+
+  - Filtering
+
+    - PC1은 목적지 aa:bb:cc:dd:ee:02 주소로 프레임 전달
+    - 스위치는 해당 주소가 동일 네트워크 영역임을 확인하여 다른 포트로 전달하지 않음
+    - 필터링은 각 포트별 Collision Domain을 나누어 효율적 통신이 가능하다
+
+  - Aging
+
+    - 스위치는 MAC 주소 테이블은 시간이 지나면 삭제
+    - 삭제되는 이유는 테이블 저장 공간을 효율적으로 사용하기 위함
+    - 해당 포트에 연결된 PC가 다른 포트로 옮겨진 경우도 발생
+    - 기본 300초(Cisco 기준) 저장, 다시 프레임이 발생되면 다시 카운트
+
+  - 정리
+    1. 프레임 유입
+    2. 신규: 출발지 주소 저장 -> `Learning`
+       기존: `Aging` 타이머 재시작 -> Refresh
+    3. 목적지가 Unknown -> `Flooding`
+       목적지가 MAC Table에 존재 -> `Forwarding`
+       목적지가 출발지와 같은 포트에 존재 -> `Filtering`
+
+- ARP
+
+  - 역할
+    - ARP(Address Resolution Protocol)
+    - IP주소를 통해서 MAC 주소를 알려주는 프로토콜
+    - 컴퓨터 A가 컴퓨터 B에게 IP통신을 시도하고 통신을 수행하기 위해 목적지 MAC 주소를 알아야 한다
+    - 목적지 IP에 해당되는 MAC 주소를 알려주는 역할을 ARP가 해준다
+  - 동작 과정
+    1. PC1은 동일 네트워크 대역인 목적지 IP 172.20.10.9로 패킹 전송을 시도
+       목적지 MAC 주소를 알기 위해서 우선 자신의 ARP Cache Table을 확인(cmd -> apr -a)
+    2. ARP Cache Table에 있으면 패킷 전송, 없으면 ARP Request 전송 - Broadcasting
+    3. IP 172.20.10.9에서 목적지 MAC 주소를 ARP Reply로 전달
+    4. 목적지 MAC 주소는 ARP Cache Table에 저장되고 패킷 전송
+  - ARP 헤더 구조
+
+  ```
+  |       Hardware Type           |       Protocol Type       |
+  |Hardware Length|Protocol Length|       Operation           |
+  |               Sender Hardware Address                     |
+  |               Sender Protocol Address                     |
+  |               Target Hardware Address                     |
+  |               Target Protocol Address                     |
+  ```
+
+  - Hardware Type: ARP가 동작하는 네트워크 환경, 이더넷
+  - Protocol Type: 프로토콜 종류, 대부분 IPv4
+  - Hardware & Protocol Length: MAC 주소 6Byte, IP주소 4Byte
+  - Operation: 명령코드, 1 = ARP Request, 2 = ARP Reply
+  - Hardware Address = MAC, Protocol Address = IP
+
+- Wrap up
+
+  - L2 스위치는 2계층의 대표적인 장비로 MAC 주소 기반 통신
+  - 스위치의 동작방식은 아래단계가 있다
+    Learing - Flooding - Forwarding - Filtering - Aging
+  - ARP는 IP 주소를 통해서 MAC 주소를 알려주는 프로토콜이다
+  - ARP 헤더 구조
+
+  ```
+  |       Hardware Type           |       Protocol Type       |
+  |Hardware Length|Protocol Length|       Operation           |
+  |               Sender Hardware Address                     |
+  |               Sender Protocol Address                     |
+  |               Target Hardware Address                     |
+  |               Target Protocol Address                     |
+  ```
