@@ -299,3 +299,74 @@
 
   - 주 타입은 정보용(8, 0, 9, 10)과 오류 보고용(3, 5, 11, 12)으로 구분
   - Ping & Tracerout 명령어를 통해서 사용된다
+
+## DHCP
+
+---
+
+- DHCP 정의
+
+  - DHCP(Dynamic Host Control Protocol)
+    - 동적 호스트 구성 프로토콜
+    - DHCP 서버를 사용하여 클라이언트인 네트워크 장치에 IP 주소를 자동으로 할당
+    - 1984년 RARP(Reverse Address Resolution Protocol) 도입 - RFC 903
+    - 1985년 BOOTP(Bootstrap Protocol) - RFC 931
+    - 1993년 DHCP - RFC 1541 -> RFC 2131
+    - 요청에 의한 IP 할당으로 효율성 극대화
+    - 잘못된 IP 설정으로 인한 장애 예방
+    - IP 변경이 잦은 호스트의 관리
+  - DHCP 메시지 포맷 설명
+    - OpCode
+      - 1 Request (Client -> Server)
+      - 2 Reply (Server -> Client)
+    - Hardware Type
+      - 1, Ethernet
+    - Hardware address length
+      - 6, MAC address
+    - Hop count
+      - 0 에서 시작, 네트워크 망 이동시 증가
+    - Transaction ID
+      - 클라이언트가 선택하는 랜덤 수, 요청과 응답 매칭
+    - Seconds
+      - IP 할당 후 경과한 초의 수
+    - Flags
+      - 서버 응담에 대해서 0 - unicast 또는 1 - broadcast 응답 구분 값
+    - Client IP
+      - 최초 0.0.0.0
+    - Your IP
+      - 할당될 IP
+    - Options
+      - DHCP 메시지 타입 포함
+
+- DHCP 동작 과정
+
+  - IP 할당
+    - 기본 네트워크 구성, Gateway - Switch - DHCP Server - PC
+    1. DHCPDISCOVER
+       - PC는 DHCP Server를 발견
+    2. DHCPOFFER
+       - DHCP Server는 PC에게 IP 제안
+    3. DHCPREQUEST
+       - PC는 제안 받은 IP 할당을 요청
+    4. DHCPACK
+       - DHCP Server는 요청 수락
+  - IP 갱신
+    - 지정된 IP 갱신 타임이 도래하면 갱신을 요청
+    1. DHCPREQUEST
+       - PC는 기존IP 재할당을 요청
+    2. DHCPACK
+       - DHCP Server는 IP 확인 후 요청 수락
+  - IP 해제
+    - 사용중인 PC가 전원 off 되는 경우
+    1. DHCPRELEASE
+       - PC는 더이상 IP 할당이 필요없음을 알림
+  - DHCP 자동 할당 정보
+    - cmd > ipconfig /all
+
+- Wrap up
+
+  - DHCP(Dynamic Host Control Protocol)
+    - 동적 호스트 구성 프로토콜
+  - DHCP 서버를 사용하여 클라이언트인 네트워크 장치에 IP 주소를 자동으로 할당
+  - 여러 DHCP 메시지 타입이 정의되어 있다
+  - DHCP 동작은 IP 할당, 갱신, 해제의 과정이 있다
